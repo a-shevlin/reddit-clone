@@ -2,6 +2,7 @@ import React from 'react';
 //import Search from './Search';
 //import { useState } from 'react';
 import ForumControl from './ForumController';
+// import Header from "./Header"
 
 function App() {
   // const posts = [

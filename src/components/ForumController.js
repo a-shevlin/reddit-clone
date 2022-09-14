@@ -4,7 +4,7 @@ import PostList from "./PostList";
 import NewPostForm from "./NewPostForm";
 import PostDetail from "./PostDetail";
 import { connect } from 'react-redux';
-import * as a from '../action';
+import * as a from '../actions';
 
 class ForumControl extends React.Component {
 
@@ -12,6 +12,7 @@ class ForumControl extends React.Component {
     super(props);
     this.state = {
       selectedPost: null,
+      selectedComment: null,
       editing: false,
     };
   };
@@ -22,7 +23,6 @@ class ForumControl extends React.Component {
         selectedPost: null,
         editing: false,
       });
-    
     } else {
       const {dispatch} = this.props;
       const action = a.toggleForm();
@@ -34,6 +34,8 @@ class ForumControl extends React.Component {
     const {dispatch} = this.props;
     const action = a.addPost(newPost);
     dispatch(action);
+    const action2 = a.toggleForm();
+    dispatch(action2);
   }
 
   handleEditPost = (postToEdit) => {
@@ -41,6 +43,15 @@ class ForumControl extends React.Component {
     const action = a.addPost(postToEdit);
     dispatch(action);
     this.setState({editing: false, selectedPost: null});
+  }
+
+  handleChangingSelectedPost = (id) => {
+    const selectedPost = this.props.mainPostList[id];
+    this.setState({selectedPost: selectedPost})
+  }
+
+  handleUpVotes = () => {
+    
   }
 
   render() {
@@ -51,9 +62,10 @@ class ForumControl extends React.Component {
       currentlyVisibleState = (
         <PostDetail 
           post = {this.state.selectedPost}
-          onClickingDelete = {this.handleDeletingPost}
-          onClickingEdit = {this.handleEditPost}
+          //onClickingDelete = {this.handleDeletingPost}
+          //onClickingEdit = {this.handleEditPost}
         />
+        //show add comment / available comments
       );
       buttonText = "Return To Forum";
     } else if (this.props.formVisibleOnPage) {
@@ -63,6 +75,7 @@ class ForumControl extends React.Component {
         />
       );
       buttonText = "Return To Forum";
+      
     } else {
       currentlyVisibleState = (
         <PostList 
@@ -74,8 +87,28 @@ class ForumControl extends React.Component {
     }
     return (
       <React.Fragment>
-        {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button>
+        <div className="forum">
+          <div className="col-left">
+            <button id="controllerBtn"onClick={this.handleClick}>{buttonText}</button>
+            {currentlyVisibleState}
+          </div>
+          <div className="col-right">
+            <div class="col-item" id="communities">
+              <h6>Top Communities</h6>
+              <hr />
+              
+            </div>
+            <div class="col-item" id="premium">
+
+            </div>
+            <div class="col-item" id="create">
+
+            </div>
+            <div class="col-item" id="info">
+
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     );
   }
@@ -89,7 +122,7 @@ ForumControl.propTypes = {
 const mapStateToProps = (state) => {
   return {
     mainPostList: state.mainPostList,
-    formVisibleOnPage: state.formVisibleOnPage
+    formVisibleOnPage: state.formVisibleOnPage,
   }
 }
 

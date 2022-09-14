@@ -9,11 +9,12 @@ function PostList(props) {
         {Object.values(props.postList).map((post) => (
           <Post
           whenPostClicked = { props.onPostSelection }
-          name = { post.name }
+          heading = { post.heading }
           userName = { post.userName }
           content = { post.content }
           date = {post.date }
-          />  
+          id = { post.id }
+          key={post.id}/>
         ))}
       </div>
     </React.Fragment>

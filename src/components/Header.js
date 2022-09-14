@@ -6,9 +6,9 @@ function Header() {
       <div class ="dropdown">
       <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"> Dropdown</button>
         <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Home</a></li>
-          <li><a class="dropdown-item" href="#">Popular</a></li>
-          <li><a class="dropdown-item" href="#">All</a></li>
+          <li><a class="dropdown-item" a href="">Home</a></li>
+          <li><a class="dropdown-item" a href="">Popular</a></li>
+          <li><a class="dropdown-item" a href="">All</a></li>
         </ul>
     </div>
     </React.Fragment>

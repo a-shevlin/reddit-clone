@@ -1,14 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import CommentList from "./CommentList";
 
 function Post(props) {
   return (
     <React.Fragment>
-      <div class="container" onclick={() => props.whenPostClicked(props.id)}>
-        <h3>{props.heading}</h3>
-        <h5>By {props.username} at {props.date}</h5>
-        <p>{props.content}</p>
+      <div className="container post" onClick={() => props.whenPostClicked(props.id)}>
+      <div className="col-left">
+          <div className="upArrow"></div>
+          <div className="downArrow"></div>
+        </div>
+        
+        <div className="col-right">
+          <h5>Posted by {props.userName} {props.date}</h5>
+          <h3>{props.heading}</h3>
+          <p>{props.content}</p>
+        </div>
+        
       </div>
+      {/* <CommentList/> */}
     </React.Fragment>
   )
 }
