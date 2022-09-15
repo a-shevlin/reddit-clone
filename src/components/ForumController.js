@@ -39,8 +39,6 @@ class ForumControl extends React.Component {
   }
 
   handleEditPost = (postToEdit) => {
-    //edit reducer function
-    //will run internal action
     const {dispatch} = this.props;
     const action = a.addPost(postToEdit);
     dispatch(action);
@@ -56,14 +54,8 @@ class ForumControl extends React.Component {
     const {dispatch} = this.props;
     const upVoted = count + 1;
     const action = a.increment(id, upVoted);
-    //type: increment, id: passed in id
     dispatch(action);
     console.log(this.props.mainPostList[id]);
-    // const newSelectedPost = {
-    //   ...this.props.mainPostList[id],
-    //   ...{ count: count + 1},
-    // }
-    //updating visual for detail
   };
 
   handleDownVotes = (id, count) => {
@@ -117,9 +109,45 @@ class ForumControl extends React.Component {
           </div>
           <div className="col-right">
             <div className="col-item" id="communities">
-              <h6>Top Communities</h6>
+              <h6 className="cHeader">Top Communities</h6>
               <hr />
-
+              <ol>
+                <a href="#">
+                  <li className="cListItem">
+                  <span>1</span>
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <span>r/first</span>
+                  <button className="cJoin">Join</button>
+                </li>
+                </a>
+                
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/second</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/third</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/fourth</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/fifth</a>
+                  <button className="cJoin">Join</button>
+                </li>
+              </ol>
+              <button className="cViewAll">View All</button>
             </div>
             <div className="col-item" id="premium">
 

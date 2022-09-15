@@ -19,13 +19,7 @@ const reducer = (state={}, action) => {
       
     case "INCREMENT":
       const newPostUpvote = { ...state[id], ...{count}};
-      const upVotedState = {
-        ...state, 
-        //  [id]: all keys
-        //  [id]: just count and id
-        ...{[id]:newPostUpvote}
-        // removing excess keys from initial state
-      };
+      const upVotedState = {...state, ...{[id]:newPostUpvote}};
       return upVotedState;
     case "DECREMENT":
 
