@@ -13,9 +13,9 @@ function NewPostForm(props) {
       content: event.target.content.value,
       userName: event.target.userName.value,
       date: event.target.date.value,
+      count: 1,
       id: v4()
     });
-    console.log(event.target.heading.value);
   }
 
   return (

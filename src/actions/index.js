@@ -4,28 +4,31 @@ export const deletePost = id => ({
 });
 
 export const addPost = (post) => {
-  const {id, heading, userName, content, date} = post;
-  console.log(id);
+  const {id, heading, userName, content, date, count} = post;
     return {
       type: 'ADD_POST',
       heading: heading,
       content: content,
       userName: userName,
+      count: count,
       date: date,
       id: id
     }
 };
 
-export const increment = (id) => {
+export const increment = (id, count) => {
   return {
     type: "INCREMENT",
-    id
+    id: id,
+    count: count
   };
 };
-export const decrement = (id) => {
+                          // downVote 0
+export const decrement = (id, count) => {
   return {
     type: "DECREMENT",
-    id
+    count: count, //0 from 1
+    id: id
   };
 };
 

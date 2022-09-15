@@ -39,6 +39,8 @@ class ForumControl extends React.Component {
   }
 
   handleEditPost = (postToEdit) => {
+    //edit reducer function
+    //will run internal action
     const {dispatch} = this.props;
     const action = a.addPost(postToEdit);
     dispatch(action);
@@ -50,8 +52,27 @@ class ForumControl extends React.Component {
     this.setState({selectedPost: selectedPost})
   }
 
-  handleUpVotes = () => {
-    
+  handleUpVotes = (id, count) => {
+    const {dispatch} = this.props;
+    const upVoted = count + 1;
+    const action = a.increment(id, upVoted);
+    //type: increment, id: passed in id
+    dispatch(action);
+    console.log(this.props.mainPostList[id]);
+    // const newSelectedPost = {
+    //   ...this.props.mainPostList[id],
+    //   ...{ count: count + 1},
+    // }
+    //updating visual for detail
+  };
+
+  handleDownVotes = (id, count) => {
+    const {dispatch} = this.props;
+    const upVoted = count - 1;
+    //0 if 1-1
+    const action = a.increment(id, upVoted);
+    dispatch(action);
+    console.log(this.props.mainPostList[id]);
   }
 
   render() {
@@ -81,6 +102,8 @@ class ForumControl extends React.Component {
         <PostList 
         postList={this.props.mainPostList}
         onPostSelection={this.handleChangingSelectedPost}
+        onUpVote={this.handleUpVotes}
+        onDownVote={this.handleDownVotes}
         />
       );
       buttonText = "Make Post!";
@@ -93,18 +116,18 @@ class ForumControl extends React.Component {
             {currentlyVisibleState}
           </div>
           <div className="col-right">
-            <div class="col-item" id="communities">
+            <div className="col-item" id="communities">
               <h6>Top Communities</h6>
               <hr />
-              
-            </div>
-            <div class="col-item" id="premium">
 
             </div>
-            <div class="col-item" id="create">
+            <div className="col-item" id="premium">
 
             </div>
-            <div class="col-item" id="info">
+            <div className="col-item" id="create">
+
+            </div>
+            <div className="col-item" id="info">
 
             </div>
           </div>

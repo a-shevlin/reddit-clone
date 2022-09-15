@@ -9,10 +9,13 @@ function PostList(props) {
         {Object.values(props.postList).map((post) => (
           <Post
           whenPostClicked = { props.onPostSelection }
+          onUpVote = { props.onUpVote }
+          onDownVote = { props.onDownVote }
           heading = { post.heading }
           userName = { post.userName }
           content = { post.content }
           date = {post.date }
+          count = {post.count}
           id = { post.id }
           key={post.id}/>
         ))}
@@ -23,7 +26,9 @@ function PostList(props) {
 
 PostList.propTypes = {
   postList: PropTypes.object,
-  onPostSelection: PropTypes.func
+  onPostSelection: PropTypes.func,
+  onUpVote: PropTypes.func,
+  onDownVote: PropTypes.func,
 };
 
 export default PostList;

@@ -1,5 +1,5 @@
 const reducer = (state={}, action) => {
-  const {id, heading, userName, content, date} = action;
+  const {id, heading, userName, content, count, date} = action;
   switch(action.type) {
     case "ADD_POST":
       return Object.assign({}, state, {
@@ -8,6 +8,7 @@ const reducer = (state={}, action) => {
           userName: userName,
           content: content,
           date: date,
+          count: count,
           id: id,
         }
       });
@@ -15,9 +16,25 @@ const reducer = (state={}, action) => {
       let newState = { ...state };
       delete newState[id];
       return newState;
+      
+    case "INCREMENT":
+      const newPostUpvote = { ...state[id], ...{count}};
+      const upVotedState = {
+        ...state, 
+        //  [id]: all keys
+        //  [id]: just count and id
+        ...{[id]:newPostUpvote}
+        // removing excess keys from initial state
+      };
+      return upVotedState;
+    case "DECREMENT":
+
+      const newPostDownVote = { ...state[id], ...{count}};
+      const downVotedState = {...state, ...{[id]:newPostDownVote}};
+      return downVotedState;
     default:
       return state;
-  }
-}
+    }
+  };
 
 export default reducer;
