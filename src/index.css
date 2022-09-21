@@ -219,14 +219,32 @@ ol
   background-color: #131313;
 }
 
-.post .upArrow {
-  height: 30px;
-  width: 30px;
-  background-color: rgb(60, 255, 0);
+.post .hoverClip:hover {
+  cursor: pointer;
+}
+
+.post .count {
+  margin-top: 3px;
+  text-align: center;
+}
+
+.post .arrow {
+  height: 25px;
+  width: 25px;
+  margin: auto;
+  margin-top: 5px;
+  clip-path: polygon(50% 0, 100% 51%, 71% 52%, 71% 100%, 29% 100%, 29% 52%, 0 52%, 50% 0, 50% 5%, 8% 48%, 32% 49%, 32% 97%, 68% 97%, 68% 49%, 93% 48%, 50% 5%);
+  background-color: rgba(155, 155, 155, 0.466);
+}
+
+.upArrowClip:hover .upArrow {
+  background-color: rgba(60, 255, 0, 0.466);
 }
 
 .post .downArrow {
-  height: 30px;
-  width: 30px;
+  rotate: 180deg;
+}
+
+.downArrowClip:hover .downArrow {
   background-color: rgb(255, 0, 0);
 }

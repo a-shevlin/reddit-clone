@@ -56,7 +56,7 @@ function Account() {
     {auth.currentUser ? (
       <div>
         <h1>Sign Out</h1>
-        {signInSuccess || signOutSuccess}
+        {signOutSuccess}
         <br />
         <button onClick={doSignOut}>Sign out</button>
       </div>
@@ -90,6 +90,9 @@ function Account() {
         </form>
       </div>
     )}
+    <Link to="/">
+      <button className="controllerBtn">Back To Home</button>
+    </Link>
     </React.Fragment>
   );
 };

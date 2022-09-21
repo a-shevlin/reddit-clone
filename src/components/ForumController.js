@@ -4,15 +4,17 @@ import PostList from "./PostList";
 import NewPostForm from "./NewPostForm";
 import PostDetail from "./PostDetail";
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import  { db, auth } from './../firebase.js'
 import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import * as a from '../actions';
 
 function ForumControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
-  const [mainPostList, setMainPostList] = useState([]);
+  const [mainPostList, setMainPostList] = useState({});
   const [selectedPost, setSelectedPost] = useState(null);
   const [editing, setEditing] = useState(false);
+  const [voteCount, setVoteCount] = useState(1);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -29,7 +31,8 @@ function ForumControl() {
             id: doc.id
           });
         });
-        setMainPostList(posts);
+        const postsObj = {...posts};
+        setMainPostList(postsObj);
       },
       (error) => {
 
@@ -37,6 +40,13 @@ function ForumControl() {
     );
     return () => unSubscribe();
   }, []);
+
+  const handleUpVoteClick = (id) => {
+    const post = mainPostList.filter(post => post.id === id)[0];
+    const newCount = post.count + 1;
+    const newMainPostList = {...post, count: newCount}
+    setMainPostList(newMainPostList);
+  }
 
   const handleClick = () => {
     if (selectedPost != null) {
@@ -75,27 +85,68 @@ function ForumControl() {
   }
 
 
-  // const handleUpVotes = (id, count) => {
-  //   const {dispatch} = props;
-  //   const upVoted = count + 1;
-  //   const action = a.increment(id, upVoted);
-  //   dispatch(action);
-  //   console.log(props.mainPostList[id]);
-  // };
-
-  // const handleDownVotes = (id, count) => {
-  //   const {dispatch} = props;
-  //   const upVoted = count - 1;
-  //   //0 if 1-1
-  //   const action = a.increment(id, upVoted);
-  //   dispatch(action);
-  //   console.log(props.mainPostList[id]);
-  // }
-
   if (auth.currentUser == null) { 
     return (
       <React.Fragment>
-        <h1>You must be signed in to access the queue.</h1>
+        <div className="forum">
+          <div className="col-left">
+            <Link to="/account">
+              <button className="controllerBtn">Account</button>
+            </Link>
+            <p>Login To Make a Post</p>
+          </div>
+          <div className="col-right">
+            <div className="col-item" id="communities">
+              <h6 className="cHeader">Top Communities</h6>
+              <hr />
+              <ol>
+                <a href="#">
+                  <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <span>r/first</span>
+                  <button className="cJoin">Join</button>
+                </li>
+                </a>
+                
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/second</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/third</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/fourth</a>
+                  <button className="cJoin">Join</button>
+                </li>
+                <li className="cListItem">
+                  <div className="cMovement"></div>
+                  <img src="" className="cImg"/>
+                  <a href="#">r/fifth</a>
+                  <button className="cJoin">Join</button>
+                </li>
+              </ol>
+              <button className="cViewAll">View All</button>
+            </div>
+            <div className="col-item" id="premium">
+
+            </div>
+            <div className="col-item" id="create">
+
+            </div>
+            <div className="col-item" id="info">
+
+            </div>
+          </div>
+        </div>
       </React.Fragment>
     )
   } else if (auth.currentUser != null) {
@@ -125,7 +176,7 @@ function ForumControl() {
         <PostList 
         postList={mainPostList}
         onPostSelection={handleChangingSelectedPost}
-        // onUpVote={handleUpVotes}
+        onUpVote={handleUpVoteClick}
         // onDownVote={handleDownVotes}
         />
       );
@@ -145,7 +196,6 @@ function ForumControl() {
               <ol>
                 <a href="#">
                   <li className="cListItem">
-                  <span>1</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
                   <span>r/first</span>
