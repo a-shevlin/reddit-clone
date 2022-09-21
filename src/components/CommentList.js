@@ -1,6 +1,12 @@
 import React from "react";
 import Comment from "./Comment";
 import PropTypes from "prop-types";
+import { query, collection, where, getDocs } from 'firebase/firestore'
+import { db } from './../firebase.js'
+
+
+
+
 
 function CommentList(props) {
   return (

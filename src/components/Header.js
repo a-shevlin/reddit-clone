@@ -9,12 +9,12 @@ function Header(){
   if (isLogged === false) {
     return (
       <React.Fragment>
-      <nav className="navbar bg-dark">
+      <nav className="navbar navbar-background bg-dark">
         <div className="container-fluid">
-          <span className="navbar-brand mb-0 h1"><Link to="/">Reddit Clone</Link></span>
+          <span className="navbar-brand mb-0 h1 navHeader"><Link to="/">reddit clone</Link></span>
           <div>
-            <span className=""><Link to="/account"><button className="btn btn-outline-primary">Login</button></Link></span>
-            <span className="mx-3"><Link to="/account"><button className="btn btn-outline-primary">Register</button></Link></span>
+            <span className=""><Link to="/account"><button className="btn logBtn">Log In</button></Link></span>
+            <span className="mx-3"><Link to="/account"><button className="btn regBtn">Register</button></Link></span>
           </div>
         </div>
       </nav>
@@ -25,7 +25,7 @@ function Header(){
       <React.Fragment>
         <nav className="navbar navbar-expand-lg bg-dark">
           <div className="container-fluid">
-          <span className="navbar-brand mb-0 h1"><Link to="/">Reddit Clone</Link></span>
+          <span className="navbar-brand mb-0 h1 navHeader"><Link to="/">Reddit Clone</Link></span>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -38,7 +38,7 @@ function Header(){
                   </a>
                   <ul className="dropdown-menu">
                     <li className="dropdown-item"><Link to="/">Profile</Link></li>
-                    <li className="dropdown-item"><Link to="/login">Login</Link></li>
+                    <li className="dropdown-item"><Link to="/login">Log In</Link></li>
                     <li><a className="dropdown-item" href="">Log-out</a></li>
                   </ul>
                 </li>

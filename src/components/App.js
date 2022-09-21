@@ -12,17 +12,15 @@ function App() {
   const [userName, setUserName] = useState(null);
   
   return (
-    <div className="Controller">
-      <Router>
-        <UserContext.Provider value={{isLogged, setIsLogged, userName, setUserName}}>
-          <Header />
-          <Routes>
-            <Route path="/account" element={<Account />} />
-            <Route path="/" element={<ForumControl />} />
-          </Routes>
-        </UserContext.Provider>
-      </Router>
-    </div>
+    <Router>
+      <UserContext.Provider value={{isLogged, setIsLogged, userName, setUserName}}>
+        <Header />
+        <Routes>
+          <Route path="/account" element={<Account />} />
+          <Route path="/" element={<ForumControl />} />
+        </Routes>
+      </UserContext.Provider>
+    </Router>
   );
 }
 

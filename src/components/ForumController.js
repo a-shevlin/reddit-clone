@@ -7,7 +7,7 @@ import { UserContext } from './UserContext';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import  { db, auth } from './../firebase.js'
-import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, orderBy, query } from 'firebase/firestore';
 import * as a from '../actions';
 import Header from './Header';
 
@@ -80,56 +80,82 @@ function ForumControl() {
     setFormVisibleOnPage(false);
   }
 
+// const postRef = collection(db,"posts");
+// const q = query(postRef, orderBy("count", "desc"));
+
+
+// let posts = [];
+// onSnapshot(q, (snapshot) => {
+//   snapshot.docs.forEach((doc) => {
+//     posts.push({...doc.data()})
+//   })
+  
+//   return ({...posts});
+// });
+
+let sortedList = mainPostList;
+let keysSorted = Object.values(sortedList).sort(function(a,b){return a.count - b.count})
+console.log(keysSorted);  
 
   if (isLogged === false) { 
     return (
       <React.Fragment>
         <div className="forum">
           <div className="col-left">
-            <Link to="/account">
-              <button className="controllerBtn">Login</button>
-            </Link>
             <p>Login To Make a Post</p>
           </div>
           <div className="col-right">
             <div className="col-item" id="communities">
-              <h6 className="cHeader">Top Communities</h6>
-              <hr />
-              <ol>
-                <a href="#">
-                  <li className="cListItem">
+              <div className="cHeader">
+                <h6>Top Communities</h6>
+                <hr />
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
+                  <span>1</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
                   <span>r/first</span>
                   <button className="cJoin">Join</button>
-                </li>
                 </a>
-                
-                <li className="cListItem">
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
+                  <span>2</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/second</a>
+                  <span>r/second</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+
+              <div className="cBoxLines">
+                <a href="#" >
+                  <span>3</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/third</a>
+                  <span>r/third</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
+                  <span>4</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/fourth</a>
+                  <span>r/fourth</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+              <div className="cBoxLines topBorder">
+                <a href="#" >
+                  <span>5</span>
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/fifth</a>
+                  <span>r/fifth</span>
                   <button className="cJoin">Join</button>
-                </li>
-              </ol>
+                </a>
+              </div>
               <button className="cViewAll">View All</button>
             </div>
             <div className="col-item" id="premium">
@@ -170,7 +196,7 @@ function ForumControl() {
     } else {
       currentlyVisibleState = (
         <PostList 
-        postList={mainPostList}
+        postList={keysSorted}
         onPostSelection={handleChangingSelectedPost}
         // onUpVote={handleUpVoteClick}
         // onDownVote={handleDownVotes}
@@ -180,7 +206,6 @@ function ForumControl() {
     }
     return (
       <React.Fragment>
-      
         <div className="forum">
           <div className="col-left">
             <button id="controllerBtn"onClick={handleClick}>{buttonText}</button>
@@ -190,41 +215,46 @@ function ForumControl() {
             <div className="col-item" id="communities">
               <h6 className="cHeader">Top Communities</h6>
               <hr />
-              <ol>
-                <a href="#">
-                  <li className="cListItem">
+              <div className="cBoxLines">
+                <a href="#" >
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
                   <span>r/first</span>
                   <button className="cJoin">Join</button>
-                </li>
                 </a>
-                
-                <li className="cListItem">
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/second</a>
+                  <span>r/second</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/third</a>
+                  <span>r/third</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+              <div className="cBoxLines">
+                <a href="#" >
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/fourth</a>
+                  <span>r/fourth</span>
                   <button className="cJoin">Join</button>
-                </li>
-                <li className="cListItem">
+                </a>
+              </div>
+              <div className="cBoxLines topBorder">
+                <a href="#" >
                   <div className="cMovement"></div>
                   <img src="" className="cImg"/>
-                  <a href="#">r/fifth</a>
+                  <span>r/fifth</span>
                   <button className="cJoin">Join</button>
-                </li>
-              </ol>
+                </a>
+              </div>
               <button className="cViewAll">View All</button>
             </div>
             <div className="col-item" id="premium">

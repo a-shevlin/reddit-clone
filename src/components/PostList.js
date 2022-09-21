@@ -1,13 +1,18 @@
 import React from "react";
 import Post from "./Post";
 import PropTypes from "prop-types";
+import  { db } from './../firebase.js'
+import { query, orderBy, onSnapshot, collection, getDocs } from "firebase/firestore";  
+
+
 
 function PostList(props) {
-  console.log(props.postList);
+  console.log(props);
+   
   return (
     <React.Fragment>
       <div>
-        {Object.values(props.postList).map((post) => (
+      {Object.values(props.postList).map((post) => (
           <Post
           whenPostClicked = { props.onPostSelection }
           onUpVote = { props.onUpVote }
