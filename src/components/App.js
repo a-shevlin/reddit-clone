@@ -5,6 +5,7 @@ import ForumControl from './ForumController';
 import Header from "./Header"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { UserContext } from "./UserContext";
+import "bootstrap/dist/js/bootstrap.min.js";
 
 function App() {
   const [isLogged, setIsLogged] = useState(false);

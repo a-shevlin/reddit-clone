@@ -5,6 +5,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { UserContext } from "./UserContext";
 
 function Account() {
+
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
@@ -35,7 +36,7 @@ function Account() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
-        checkAuth(userCredential);
+        checkAuth(userCredential.user.email);
       })
       .catch((error) => {
         setSignInSuccess(`There was an error signing in: ${error.message}!`)
@@ -53,7 +54,7 @@ function Account() {
 
   return (
     <React.Fragment>
-    {auth.currentUser ? (
+    {isLogged ? (
       <div>
         <h1>Sign Out</h1>
         {signOutSuccess}
