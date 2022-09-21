@@ -79,6 +79,8 @@ ol
 
 .col-item {
   background-color: #1a1a1b;
+  border: 1px solid;
+  border-color: rgba(215, 218, 220, 0.158);
   padding-top: 5px;
   width: 100%;
   border-radius: 5px;
@@ -170,10 +172,61 @@ ol
 }
 
 #premium {
-  height: 100px;
+  height: 105px;
+  padding: 0;
 }
 
+#premium h4 {
+  vertical-align: top;
+  font-size: 10pt;
+  padding: 0;
+  margin: 0
+}
 
+#premium p {
+  font-size: 8pt;
+  padding: 0;
+  margin: 0
+}
+
+#premium .pHeader {
+  padding: 8px;
+}
+
+.pLogo {
+  background-color: rgb(228, 48, 17);
+  display: inline-block;
+  position: absolute;
+  margin-left: 3px;
+  margin-top: 8px;
+  height: 30px;
+  width: 40px;
+  clip-path: polygon(50% 0, 66% 5%, 80% 8%, 88% 10%, 100% 8%, 96% 23%, 94% 35%, 92% 47%, 94% 67%, 92% 83%, 88% 92%, 74% 99%, 60% 99%, 50% 99%, 36% 98%, 25% 94%, 14% 91%, 7% 81%, 4% 67%, 5% 54%, 6% 38%, 4% 25%, 0 8%, 11% 10%, 21% 8%, 31% 4%, 50% 0, 51% 8%, 33% 10%, 19% 15%, 7% 15%, 11% 27%, 11% 44%, 11% 54%, 21% 53%, 33% 51%, 43% 50%, 50% 50%, 50% 91%, 66% 93%, 74% 90%, 84% 88%, 87% 80%, 88% 69%, 85% 55%, 50% 52%, 50% 48%, 50% 9%);
+}
+
+.pHeaderText {
+  display: inline-block;
+  margin-left: 60px;
+  padding: 0;
+  width: 80%;
+}
+
+.pTryNow {
+  display: block;
+  background-color: rgb(228, 48, 17);
+  border: 1px solid rgb(228, 48, 17);
+  color: #1a1a1b;
+  width: 90%;
+  height: 30px;
+  margin: auto;
+  margin-bottom: 10px;
+  font-size: 12pt;
+}
+
+.pTryNow:hover {
+  background-color: rgba(228, 48, 17, 0.685);
+  border: none;
+}
 
 #create {
   height: 300px;
