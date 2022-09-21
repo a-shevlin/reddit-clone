@@ -2,33 +2,33 @@ import React, { useState, useEffect }from "react";
 import PropTypes from "prop-types";
 import CommentList from "./CommentList";
 import  { db, auth } from './../firebase.js'
-import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue } from 'firebase/firestore';
+import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
 
 function Post(props) {
 
-  const [voteCount, setVoteCount] = useState(1);
+  const [voteCount, setVoteCount] = useState(props.count);
   
-  // const handleUpVotes= () =>  {
-  //   if(auth.currentUser != null) {
-  //     const storyRef = collection(db, 'posts');
-  //     storyRef.update({count: props.count += 1});
-  //     console.log(storyRef);
-  //   }
-  // }
+  useEffect(() => {
+    const countRef = doc(db, "posts", props.id);
+
+      updateDoc(countRef, {
+        count: voteCount
+      });
   
-  // const handleUpVotes = async (props) => {
-  //   const increment = firebase.firestore.FIeldValue.increment(1);
-  //   const storyRef = db.collection('posts').doc(props.id);
-  //   storyRef.update({count: increment});
-  //   console.log(upVote);
-  // };
-  // const handleUpVotes = () => {
-  //   setVoteCount(voteCount => voteCount + 1);
-  //   console.log("clicked upvote");
-  // }
+  }, [voteCount]);
 
+  useEffect(() => {
 
-  const handleDownVotes = (post) => {
+    setVoteCount(props.count)
+  
+  }, [props.count]);
+
+  const handleUpVotes = () => {
+    setVoteCount(voteCount => voteCount + 1);
+    console.log("clicked upvote");
+  }
+
+  const handleDownVotes = () => {
     setVoteCount(voteCount => voteCount - 1);
     console.log("clicked downvote");
   }
@@ -37,7 +37,7 @@ function Post(props) {
     <React.Fragment>
       <div className="container post" >
       <div className="col-left">
-        <div className="upArrowClip hoverClip" onClick={() => props.onUpVote()}>
+        <div className="upArrowClip hoverClip" onClick={() => handleUpVotes()}>
           <div className="upArrow arrow"></div>
         </div>
           <div className="count">{voteCount}</div>

@@ -41,12 +41,12 @@ function ForumControl() {
     return () => unSubscribe();
   }, []);
 
-  const handleUpVoteClick = (id) => {
-    const post = mainPostList.filter(post => post.id === id)[0];
-    const newCount = post.count + 1;
-    const newMainPostList = {...post, count: newCount}
-    setMainPostList(newMainPostList);
-  }
+  // const handleUpVoteClick = (id) => {
+  //   const post = mainPostList.filter(post => post.id === id)[0];
+  //   const newCount = post.count + 1;
+  //   const newMainPostList = {...post, count: newCount}
+  //   setMainPostList(newMainPostList);
+  // }
 
   const handleClick = () => {
     if (selectedPost != null) {
@@ -91,7 +91,7 @@ function ForumControl() {
         <div className="forum">
           <div className="col-left">
             <Link to="/account">
-              <button className="controllerBtn">Account</button>
+              <button className="controllerBtn">Login</button>
             </Link>
             <p>Login To Make a Post</p>
           </div>
@@ -176,7 +176,7 @@ function ForumControl() {
         <PostList 
         postList={mainPostList}
         onPostSelection={handleChangingSelectedPost}
-        onUpVote={handleUpVoteClick}
+        // onUpVote={handleUpVoteClick}
         // onDownVote={handleDownVotes}
         />
       );
