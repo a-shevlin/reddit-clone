@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from "prop-types";
 import PostList from "./PostList";
 import NewPostForm from "./NewPostForm";
 import PostDetail from "./PostDetail";
+import { UserContext } from './UserContext';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import  { db, auth } from './../firebase.js'
 import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import * as a from '../actions';
+import Header from './Header';
 
 function ForumControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
@@ -15,6 +17,7 @@ function ForumControl() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [editing, setEditing] = useState(false);
   const [voteCount, setVoteCount] = useState(1);
+  const {isLogged, setIsLogged, userName, setUserName} = useContext(UserContext);
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -40,13 +43,6 @@ function ForumControl() {
     );
     return () => unSubscribe();
   }, []);
-
-  // const handleUpVoteClick = (id) => {
-  //   const post = mainPostList.filter(post => post.id === id)[0];
-  //   const newCount = post.count + 1;
-  //   const newMainPostList = {...post, count: newCount}
-  //   setMainPostList(newMainPostList);
-  // }
 
   const handleClick = () => {
     if (selectedPost != null) {
@@ -85,7 +81,7 @@ function ForumControl() {
   }
 
 
-  if (auth.currentUser == null) { 
+  if (isLogged === false) { 
     return (
       <React.Fragment>
         <div className="forum">
@@ -149,7 +145,7 @@ function ForumControl() {
         </div>
       </React.Fragment>
     )
-  } else if (auth.currentUser != null) {
+  } else if (isLogged === true) {
     let currentlyVisibleState = null;
     let buttonText = null; 
     
@@ -184,6 +180,7 @@ function ForumControl() {
     }
     return (
       <React.Fragment>
+      
         <div className="forum">
           <div className="col-left">
             <button id="controllerBtn"onClick={handleClick}>{buttonText}</button>
