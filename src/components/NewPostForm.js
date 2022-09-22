@@ -17,6 +17,7 @@ function NewPostForm(props) {
       userName: userName,
       date: new Date(),
       count: 1,
+      commentCount: 0,
       id: v4()
     });
   }
