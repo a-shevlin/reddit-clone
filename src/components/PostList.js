@@ -8,7 +8,6 @@ import { query, orderBy, onSnapshot, collection, getDocs } from "firebase/firest
 
 
 function PostList(props) {
-
   return (
     <React.Fragment>
       <div>
@@ -22,6 +21,7 @@ function PostList(props) {
             userName = { post.userName }
             content = { post.content }
             date = {post.date }
+            commentCount = { post.commentCount }
             count = {post.count}
             id = { post.id }
             key={post.id}/>
@@ -33,7 +33,7 @@ function PostList(props) {
 
 PostList.propTypes = {
   addComment: PropTypes.func,
-  postList: PropTypes.object,
+  postList: PropTypes.array,
   onPostSelection: PropTypes.func,
   onUpVote: PropTypes.func,
   onDownVote: PropTypes.func,
