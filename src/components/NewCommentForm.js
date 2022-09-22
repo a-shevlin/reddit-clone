@@ -12,10 +12,9 @@ function NewCommentForm(props) {
 
   const [content, setContent] = useState(null);
 
-  // console.log(postId);
-  const jerry = {postId};
+  const jerry = postId;
 
-  props.onNewCommentCreation=(e)=>{
+  const onNewCommentCreation=(e)=>{
     e.preventDefault();
     addDoc(collection(db,'comments'),{
     content:content,
@@ -35,7 +34,7 @@ function NewCommentForm(props) {
 
   return (
     <React.Fragment>
-      <form onSubmit={props.onNewCommentCreation}>
+      <form onSubmit={onNewCommentCreation}>
         <div className="content">
           <input type="textarea" id="content" placeholder="Comment" value={content} onChange = {(e) => handleInputChange(e)}/>
         </div>
