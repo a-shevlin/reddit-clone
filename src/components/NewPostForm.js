@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from './UserContext';
 import { v4 } from 'uuid';
 import PropTypes from "prop-types"; 
 import ReusableForm from "./ReusableForm";
 
 function NewPostForm(props) {
+
+  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
 
   function handleNewPostFormSubmission(event) {
     
@@ -11,8 +14,8 @@ function NewPostForm(props) {
     props.onNewPostCreation({
       heading: event.target.heading.value,
       content: event.target.content.value,
-      userName: event.target.userName.value,
-      date: event.target.date.value,
+      userName: userName,
+      date: new Date(),
       count: 1,
       id: v4()
     });

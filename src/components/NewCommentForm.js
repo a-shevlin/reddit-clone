@@ -1,8 +1,7 @@
-import React, {useState,setState, useContext} from 'react';
+import React, { useState,setState, useContext} from 'react';
 import { UserContext } from './UserContext';
 import { v4 } from 'uuid';
 import PropTypes from "prop-types"; 
-import ReusableForm from "./ReusableForm";
 import  { db, auth } from './../firebase.js'
 import { collection, addDoc } from 'firebase/firestore';
 
@@ -12,19 +11,18 @@ function NewCommentForm(props) {
 
   const [content, setContent] = useState(null);
 
-  const jerry = postId;
-
   const onNewCommentCreation=(e)=>{
     e.preventDefault();
     addDoc(collection(db,'comments'),{
-    content:content,
-    postId: jerry,
-    id: v4()
+      content:content,
+      userName: userName, 
+      postId: postId,
+      id: v4()
     })
     console.log(content);
     setContent('')
     };
-    
+
   const handleInputChange = (e) => {
     const {id , value} = e.target;
     if(id === "content"){

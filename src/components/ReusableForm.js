@@ -10,17 +10,6 @@ function ReusableForm(props) {
         <hr />
         <div className="container reusableForm">
           <form onSubmit={props.formSubmissionHandler}>
-            <input 
-              id="formUserName"
-              type="text"
-              name="userName"
-              placeholder="User Name" />
-            <input 
-              id="formDate"
-              type="text"
-              name="date"
-              placeholder="Date" />
-            <br />
             <input
               id="formTitle"
               type="text"

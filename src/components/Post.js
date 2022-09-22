@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext }from "react";
+import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
+import  { db, auth } from './../firebase.js';
 import { UserContext } from "./UserContext";
 import PropTypes from "prop-types";
-import CommentList from "./CommentList";
-import  { db, auth } from './../firebase.js'
-import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
 
 function Post(props) {
 
+  
   const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
   const [voteCount, setVoteCount] = useState(props.count);
-
   
+  const formattedDate = new Date(props.date.seconds * 1000).toLocaleTimeString();
   
   useEffect(() => {
     const countRef = doc(db, "posts", props.id);
@@ -56,7 +56,7 @@ function Post(props) {
         
         <div className="col-right">
           <div className="postHeader" onClick={() => props.whenPostClicked(props.id)}>
-            <h5>Posted by {props.userName} {props.date}</h5>
+            <h5>Posted by {props.userName} {formattedDate}</h5>
             <h3>{props.heading}</h3>
             <p>{props.content}</p>
           </div>
@@ -86,7 +86,6 @@ function Post(props) {
           </div>
         </div>
       </div>
-      {/* <CommentList/> */}
     </React.Fragment>
   )
 }
@@ -97,7 +96,10 @@ Post.propTypes = {
   heading: PropTypes.string, 
   userName: PropTypes.string,
   content: PropTypes.string,
-  date: PropTypes.string,
+  date: PropTypes.exact({
+    seconds: PropTypes.number,
+    nanoseconds: PropTypes.number
+  }), 
   count: PropTypes.number,
   id: PropTypes.string,
   whenPostClicked: PropTypes.func,
