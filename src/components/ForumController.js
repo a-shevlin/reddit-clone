@@ -17,6 +17,7 @@ function ForumControl() {
   const [selectedPost, setSelectedPost] = useState(null);
   const [editing, setEditing] = useState(false);
   const [voteCount, setVoteCount] = useState(1);
+  const [selectedSort, setSelectedSort] = useState({});
   const {isLogged, setIsLogged, userName, setUserName} = useContext(UserContext);
 
   useEffect(() => {
@@ -80,23 +81,18 @@ function ForumControl() {
     setFormVisibleOnPage(false);
   }
 
-// const postRef = collection(db,"posts");
-// const q = query(postRef, orderBy("count", "desc"));
+  const handleAsceSortClick = () => {
+    setSelectedSort(valuesAsceSorted);
+  }
 
+  const handleDescSortClick = () => {
+    setSelectedSort(valuesDescSorted);
+  }
 
-// let posts = [];
-// onSnapshot(q, (snapshot) => {
-//   snapshot.docs.forEach((doc) => {
-//     posts.push({...doc.data()})
-//   })
-  
-//   return ({...posts});
-// });
-
-let sortedList = mainPostList;
-let keysSorted = Object.values(sortedList).sort(function(a,b){return a.count - b.count})
-console.log(keysSorted);  
-
+  let sortedList = mainPostList;
+  let valuesDescSorted = Object.values(sortedList).sort(function(a,b){return a.count - b.count});
+  let valuesAsceSorted = Object.values(sortedList).sort(function(a,b){return b.count - a.count});
+ 
   if (isLogged === false) { 
     return (
       <React.Fragment>
@@ -159,7 +155,14 @@ console.log(keysSorted);
               <button className="cViewAll">View All</button>
             </div>
             <div className="col-item" id="premium">
-
+              <div className="pHeader">
+                <div className="pLogo"></div>
+                <div className="pHeaderText">
+                  <h4>Premium</h4>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+              </div>
+              <button className="pTryNow">Try Now</button>
             </div>
             <div className="col-item" id="create">
 
@@ -196,7 +199,7 @@ console.log(keysSorted);
     } else {
       currentlyVisibleState = (
         <PostList 
-        postList={keysSorted}
+        postList={selectedSort}
         onPostSelection={handleChangingSelectedPost}
         // onUpVote={handleUpVoteClick}
         // onDownVote={handleDownVotes}
@@ -209,7 +212,9 @@ console.log(keysSorted);
         <div className="forum">
           <div className="col-left">
             <button id="controllerBtn"onClick={handleClick}>{buttonText}</button>
-            {currentlyVisibleState}
+            <button id="controllerSortAsceBtn"onClick={handleAsceSortClick}>Trending!</button>
+            <button id="controllerSortDescBtn"onClick={handleDescSortClick}>Controversial</button>
+            {currentlyVisibleState}   
           </div>
           <div className="col-right">
             <div className="col-item" id="communities">
