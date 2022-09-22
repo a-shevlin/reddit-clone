@@ -1,4 +1,5 @@
-import React, { useState, useEffect }from "react";
+import React, { useState, useEffect, useContext }from "react";
+import { UserContext } from "./UserContext";
 import PropTypes from "prop-types";
 import CommentList from "./CommentList";
 import  { db, auth } from './../firebase.js'
@@ -6,7 +7,10 @@ import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, 
 
 function Post(props) {
 
+  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
   const [voteCount, setVoteCount] = useState(props.count);
+
+  
   
   useEffect(() => {
     const countRef = doc(db, "posts", props.id);
@@ -33,6 +37,10 @@ function Post(props) {
     console.log("clicked downvote");
   }
 
+  function grabPostId(id) {
+    setPostId(id);
+  }
+
   return (
     <React.Fragment>
       <div className="container post" >
@@ -46,10 +54,36 @@ function Post(props) {
         </div>
         </div>
         
-        <div className="col-right" onClick={() => props.whenPostClicked(props.id)}>
-          <h5>Posted by {props.userName} {props.date}</h5>
-          <h3>{props.heading}</h3>
-          <p>{props.content}</p>
+        <div className="col-right">
+          <div className="postHeader" onClick={() => props.whenPostClicked(props.id)}>
+            <h5>Posted by {props.userName} {props.date}</h5>
+            <h3>{props.heading}</h3>
+            <p>{props.content}</p>
+          </div>
+          <div className="postButtons">
+            <div className="comments pButton" 
+                  onClick={() => { props.whenCommentClicked(props.id); grabPostId(props.id) }}>
+              <i className="icon" id="commentsClip"></i>
+              <span>comments</span>
+            </div>
+            <a href="/">
+              <div className="share pButton">
+                <i className="icon" id="shareClip"></i>
+                <span>share</span>
+              </div>
+            </a>
+            <a href="/">
+              <div className="save pButton">
+                <i className="icon" id="saveClip"></i>
+                <span>save</span>
+              </div>
+            </a>
+            <a>
+              <div className="ellipsis pButton">
+                <span id="pBtnMore">...</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
       {/* <CommentList/> */}
@@ -67,6 +101,7 @@ Post.propTypes = {
   count: PropTypes.number,
   id: PropTypes.string,
   whenPostClicked: PropTypes.func,
+  whenCommentClicked: PropTypes.func,
   onUpVote: PropTypes.func,
   onDownVote: PropTypes.func
 };

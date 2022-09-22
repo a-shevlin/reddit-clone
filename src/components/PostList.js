@@ -6,24 +6,25 @@ import { query, orderBy, onSnapshot, collection, getDocs } from "firebase/firest
 
 
 
+
 function PostList(props) {
-  console.log(props);
-   
+
   return (
     <React.Fragment>
       <div>
       {Object.values(props.postList).map((post) => (
           <Post
-          whenPostClicked = { props.onPostSelection }
-          onUpVote = { props.onUpVote }
-          onDownVote = { props.onDownVote }
-          heading = { post.heading }
-          userName = { post.userName }
-          content = { post.content }
-          date = {post.date }
-          count = {post.count}
-          id = { post.id }
-          key={post.id}/>
+            whenPostClicked = { props.onPostSelection }
+            whenCommentClicked = { props.addComment }
+            onUpVote = { props.onUpVote }
+            onDownVote = { props.onDownVote }
+            heading = { post.heading }
+            userName = { post.userName }
+            content = { post.content }
+            date = {post.date }
+            count = {post.count}
+            id = { post.id }
+            key={post.id}/>
         ))}
       </div>
     </React.Fragment>
@@ -31,6 +32,7 @@ function PostList(props) {
 }
 
 PostList.propTypes = {
+  addComment: PropTypes.func,
   postList: PropTypes.object,
   onPostSelection: PropTypes.func,
   onUpVote: PropTypes.func,
