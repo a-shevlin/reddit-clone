@@ -18,7 +18,8 @@ import Header from './Header';
 function ForumControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
   const [commentFormVisible, setCommentFormVisible] = useState(false);
-  const [mainPostList, setMainPostList] = useState({});
+  const [mainPostList, setMainPostList] = useState([]);
+  const [mainCommentList, setMainCommentList ] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [editing, setEditing] = useState(false);
   const [voteCount, setVoteCount] = useState(1);
@@ -36,12 +37,13 @@ function ForumControl() {
             userName: doc.data().userName,
             content: doc.data().content,
             date: doc.data().date,
+            commentCount: doc.data().commentCount,
             count: doc.data().count,
             id: doc.id
           });
         });
-        const postsObj = {...posts};
-        setMainPostList(postsObj);
+        // const postsObj = {...posts};
+        setMainPostList(posts);
       },
       (error) => {
 
@@ -49,6 +51,33 @@ function ForumControl() {
     );
     return () => unSubscribe();
   }, []);
+
+  useEffect(() => {
+    const unSubscribe = onSnapshot(
+      collection(db, "comments"),
+      (collectionSnapshot) => {
+        const comments = [];
+        collectionSnapshot.forEach((doc) => {
+          comments.push({
+            userName: doc.data().userName,
+            date: doc.data().date,
+            content: doc.data().content,
+            count: doc.data().count,
+            postId: doc.data().postId,
+            id: doc.id
+          });
+        });
+        // const postsObj = {...posts};
+        setMainCommentList(comments);
+      },
+      (error) => {
+
+      }
+    );
+    return () => unSubscribe();
+  }, []);
+
+
 
   const handleClick = () => {
     if (selectedPost != null) {
@@ -160,8 +189,8 @@ function ForumControl() {
       currentlyVisibleState = (
         <PostDetail 
           post = {selectedPost}
+          commentList = {mainCommentList}
         />
-        //show add comment / available comments
       );
       buttonText = "Return To Forum";
     } else if (formVisibleOnPage) {
@@ -176,6 +205,7 @@ function ForumControl() {
         <NewCommentForm 
           onNewCommentCreation={handleAddingCommentToList}
           postId={postId}
+          postList={mainPostList}
         />
       );
       buttonText = "Return To Forum";
