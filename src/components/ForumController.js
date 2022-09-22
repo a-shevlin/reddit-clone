@@ -3,6 +3,10 @@ import PropTypes from "prop-types";
 import PostList from "./PostList";
 import NewPostForm from "./NewPostForm";
 import PostDetail from "./PostDetail";
+import CommunityPlate from './CommunityPlate';
+import PremiumPlate from './PremiumPlate';
+import CreatePlate from './CreatePlate'
+import NewCommentForm from './NewCommentForm';
 import { UserContext } from './UserContext';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
@@ -13,12 +17,13 @@ import Header from './Header';
 
 function ForumControl() {
   const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
+  const [commentFormVisible, setCommentFormVisible] = useState(false);
   const [mainPostList, setMainPostList] = useState({});
   const [selectedPost, setSelectedPost] = useState(null);
   const [editing, setEditing] = useState(false);
   const [voteCount, setVoteCount] = useState(1);
-  const [selectedSort, setSelectedSort] = useState({});
-  const {isLogged, setIsLogged, userName, setUserName} = useContext(UserContext);
+  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
+
 
   useEffect(() => {
     const unSubscribe = onSnapshot(
@@ -55,6 +60,19 @@ function ForumControl() {
     }
   }
 
+
+  const handleAddComment = (id) => {
+    if(selectedPost != null) {
+      setCommentFormVisible(false);
+      setSelectedPost(null);
+      setEditing(null);
+      console.log(id);
+      setPostId(id);
+    } else {
+      setCommentFormVisible(!commentFormVisible);
+    }
+  }
+
   const handleEditingPostInList = async (postToEdit) => {
     const postRef = doc(db, "posts", postToEdit.id);
     await updateDoc(postRef, postToEdit);
@@ -81,18 +99,41 @@ function ForumControl() {
     setFormVisibleOnPage(false);
   }
 
+  const handleAddingCommentToList = async (newCommentData) => {
+    await addDoc(collection(db, "comments"), newCommentData);
+    setCommentFormVisible(false);
+  }
+  
   const handleAsceSortClick = () => {
-    setSelectedSort(valuesAsceSorted);
+    setMainPostList(valuesAsceSorted);
   }
 
   const handleDescSortClick = () => {
-    setSelectedSort(valuesDescSorted);
+    setMainPostList(valuesDescSorted);
   }
 
   let sortedList = mainPostList;
   let valuesDescSorted = Object.values(sortedList).sort(function(a,b){return a.count - b.count});
   let valuesAsceSorted = Object.values(sortedList).sort(function(a,b){return b.count - a.count});
- 
+
+  // snap to top button logic
+  let mybutton = document.getElementById("myBtn");
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+
+  function topFunction() {
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0;
+  } 
+  // end snap to top button logic
+
   if (isLogged === false) { 
     return (
       <React.Fragment>
@@ -101,72 +142,9 @@ function ForumControl() {
             <p>Login To Make a Post</p>
           </div>
           <div className="col-right">
-            <div className="col-item" id="communities">
-              <div className="cHeader">
-                <h6>Top Communities</h6>
-                <hr />
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <span>1</span>
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/first</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <span>2</span>
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/second</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-
-              <div className="cBoxLines">
-                <a href="#" >
-                  <span>3</span>
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/third</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <span>4</span>
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/fourth</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines topBorder">
-                <a href="#" >
-                  <span>5</span>
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/fifth</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <button className="cViewAll">View All</button>
-            </div>
-            <div className="col-item" id="premium">
-              <div className="pHeader">
-                <div className="pLogo"></div>
-                <div className="pHeaderText">
-                  <h4>Premium</h4>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                </div>
-              </div>
-              <button className="pTryNow">Try Now</button>
-            </div>
-            <div className="col-item" id="create">
-
-            </div>
+            <CommunityPlate />
+            <PremiumPlate />
+            <CreatePlate />
             <div className="col-item" id="info">
 
             </div>
@@ -182,8 +160,6 @@ function ForumControl() {
       currentlyVisibleState = (
         <PostDetail 
           post = {selectedPost}
-          //onClickingDelete = {handleDeletingPost}
-          //onClickingEdit = {handleEditPost}
         />
         //show add comment / available comments
       );
@@ -195,14 +171,20 @@ function ForumControl() {
         />
       );
       buttonText = "Return To Forum";
-      
+    } else if (commentFormVisible) {
+      currentlyVisibleState = (
+        <NewCommentForm 
+          onNewCommentCreation={handleAddingCommentToList}
+          postId={postId}
+        />
+      );
+      buttonText = "Return To Forum";
     } else {
       currentlyVisibleState = (
         <PostList 
-        postList={selectedSort}
-        onPostSelection={handleChangingSelectedPost}
-        // onUpVote={handleUpVoteClick}
-        // onDownVote={handleDownVotes}
+          postList={mainPostList}
+          onPostSelection={handleChangingSelectedPost}
+          addComment={handleAddComment}
         />
       );
       buttonText = "Make Post!";
@@ -217,61 +199,14 @@ function ForumControl() {
             {currentlyVisibleState}   
           </div>
           <div className="col-right">
-            <div className="col-item" id="communities">
-              <h6 className="cHeader">Top Communities</h6>
-              <hr />
-              <div className="cBoxLines">
-                <a href="#" >
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/first</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/second</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/third</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines">
-                <a href="#" >
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/fourth</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <div className="cBoxLines topBorder">
-                <a href="#" >
-                  <div className="cMovement"></div>
-                  <img src="" className="cImg"/>
-                  <span>r/fifth</span>
-                  <button className="cJoin">Join</button>
-                </a>
-              </div>
-              <button className="cViewAll">View All</button>
-            </div>
-            <div className="col-item" id="premium">
-
-            </div>
-            <div className="col-item" id="create">
-
-            </div>
+            <CommunityPlate />
+            <PremiumPlate />
+            <CreatePlate />
             <div className="col-item" id="info">
 
             </div>
           </div>
+          <button id='myBtn' onClick={topFunction}></button>
         </div>
       </React.Fragment>
     );
