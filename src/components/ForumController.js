@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from 'react';
-import PropTypes from "prop-types";
 import PostList from "./PostList";
 import NewPostForm from "./NewPostForm";
 import PostDetail from "./PostDetail";
@@ -8,23 +7,15 @@ import PremiumPlate from './PremiumPlate';
 import CreatePlate from './CreatePlate'
 import NewCommentForm from './NewCommentForm';
 import { UserContext, HeaderState } from './UserContext';
-import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
 import  { db, auth } from './../firebase.js'
-import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, orderBy, query } from 'firebase/firestore';
-import * as a from '../actions';
+import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import Header from './Header';
 
 function ForumControl() {
-  // const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
-  // const [commentFormVisible, setCommentFormVisible] = useState(false);
   const [mainPostList, setMainPostList] = useState([]);
   const [mainCommentList, setMainCommentList ] = useState([]);
-  // const [selectedPost, setSelectedPost] = useState(null);
-  // const [editing, setEditing] = useState(false);
-  const [voteCount, setVoteCount] = useState(1);
-  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
-  const {formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, editing, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
+  const { postId, setPostId} = useContext(UserContext);
+  const { formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
 
 
 
@@ -156,7 +147,7 @@ function ForumControl() {
   } 
   // end snap to top button logic
 
-  if (isLogged === false) { 
+  if (auth.currentUser === null) { 
     return (
       <React.Fragment>
         <Header />
@@ -175,7 +166,7 @@ function ForumControl() {
         </div>
       </React.Fragment>
     )
-  } else if (isLogged === true) {
+  } else if (auth.currentUser != null) {
     let currentlyVisibleState = null;
     let buttonText = null; 
     

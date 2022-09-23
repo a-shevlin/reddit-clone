@@ -3,8 +3,6 @@ import { auth } from "../firebase";
 import { Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
-
-import { UserContext, HeaderState } from "./UserContext";
 import Header from "./Header";
 
 
@@ -13,12 +11,6 @@ function Account() {
   const [signUpSuccess, setSignUpSuccess] = useState(null);
   const [signInSuccess, setSignInSuccess] = useState(null);
   const [signOutSuccess, setSignOutSuccess] = useState(null);
-  const {isLogged, setIsLogged, userName, setUserName } = useContext(UserContext);
-
-  function checkAuth(name) {
-    setIsLogged(true);
-    setUserName(name);
-  }
 
   function doSignUp(event) {
     event.preventDefault();
@@ -45,8 +37,7 @@ function Account() {
     return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
-      checkAuth(userCredential.user.email);
-      window.localStorage.setItem("isLoggedIn", true);
+     
     })
     .catch((error) => {
       setSignInSuccess(`There was an error signing in: ${error.message}!`);
@@ -61,16 +52,15 @@ function Account() {
     signOut(auth)
       .then(function() {
         setSignOutSuccess("You have successfully signed out!");
-        window.localStorage.removeItem("isLoggedIn", false)
       }).catch(function(error) {
         setSignOutSuccess(`There was an error signing out: ${error.message}!`);
       });
   }
-
+   
   return (
     <React.Fragment>
       <Header />
-    {isLogged ? (
+    {auth.currentUser ? (
       <div>
         <h1>Sign Out</h1>
         {signOutSuccess}

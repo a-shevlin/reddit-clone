@@ -6,7 +6,7 @@ import ReusableForm from "./ReusableForm";
 
 function NewPostForm(props) {
 
-  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
+  const { userName } = useContext(UserContext);
 
   function handleNewPostFormSubmission(event) {
     
