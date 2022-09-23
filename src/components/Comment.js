@@ -43,11 +43,9 @@ function Comment(props) {
       <div className="container comment" >
         <div className="row-top">
           <div className="commentHeader">
-            <h5>Posted by {props.userName} {formattedDate}</h5>
-            <h3>{props.heading}</h3>
+            <h5>{props.userName} {formattedDate}</h5>
             <p>{props.content}</p>
           </div>
-          
         </div>
         <div className="row-bottom">
           <div className="postButtons">
