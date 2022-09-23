@@ -35,7 +35,6 @@ function ForumControl() {
             id: doc.id
           });
         });
-        // const postsObj = {...posts};
         setMainPostList(posts);
       },
       (error) => {
@@ -142,10 +141,9 @@ function ForumControl() {
   }
 
   function topFunction() {
-    document.body.scrollTop = 0; // For Safari
+    document.body.scrollTop = 0; 
     document.documentElement.scrollTop = 0;
   } 
-  // end snap to top button logic
 
   if (auth.currentUser === null) { 
     return (
@@ -223,7 +221,7 @@ function ForumControl() {
 
             </div>
           </div>
-          <button id='myBtn' onClick={topFunction}></button>
+          <button id='myBtn' onClick={topFunction}>Scroll to Top</button>
         </div>
       </React.Fragment>
     );
