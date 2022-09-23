@@ -1,8 +1,12 @@
 import React, { useState, useContext } from "react";
 import { auth } from "../firebase";
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { UserContext } from "./UserContext";
+import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { getAuth, setPersistence, signInWithEmailAndPassword, browserSessionPersistence } from "firebase/auth";
+
+import { UserContext, HeaderState } from "./UserContext";
+import Header from "./Header";
+
 
 function Account() {
 
@@ -33,20 +37,31 @@ function Account() {
     event.preventDefault();
     const email = event.target.signinEmail.value;
     const password = event.target.signinPassword.value;
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
-        checkAuth(userCredential.user.email);
-      })
-      .catch((error) => {
-        setSignInSuccess(`There was an error signing in: ${error.message}!`)
-      });
-  }
+
+    const auth = getAuth();
+    setPersistence(auth, browserSessionPersistence)
+      .then(() => {
+
+    return signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
+      checkAuth(userCredential.user.email);
+      window.localStorage.setItem("isLoggedIn", true);
+    })
+    .catch((error) => {
+      setSignInSuccess(`There was an error signing in: ${error.message}!`);
+    });
+})}
+
+
+
+    
 
   function doSignOut() {
     signOut(auth)
       .then(function() {
         setSignOutSuccess("You have successfully signed out!");
+        window.localStorage.removeItem("isLoggedIn", false)
       }).catch(function(error) {
         setSignOutSuccess(`There was an error signing out: ${error.message}!`);
       });
@@ -54,6 +69,7 @@ function Account() {
 
   return (
     <React.Fragment>
+      <Header />
     {isLogged ? (
       <div>
         <h1>Sign Out</h1>
