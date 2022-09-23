@@ -7,7 +7,7 @@ import CommunityPlate from './CommunityPlate';
 import PremiumPlate from './PremiumPlate';
 import CreatePlate from './CreatePlate'
 import NewCommentForm from './NewCommentForm';
-import { UserContext } from './UserContext';
+import { UserContext, HeaderState } from './UserContext';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
 import  { db, auth } from './../firebase.js'
@@ -16,14 +16,16 @@ import * as a from '../actions';
 import Header from './Header';
 
 function ForumControl() {
-  const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
-  const [commentFormVisible, setCommentFormVisible] = useState(false);
+  // const [formVisibleOnPage, setFormVisibleOnPage] = useState(false);
+  // const [commentFormVisible, setCommentFormVisible] = useState(false);
   const [mainPostList, setMainPostList] = useState([]);
   const [mainCommentList, setMainCommentList ] = useState([]);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [editing, setEditing] = useState(false);
+  // const [selectedPost, setSelectedPost] = useState(null);
+  // const [editing, setEditing] = useState(false);
   const [voteCount, setVoteCount] = useState(1);
   const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
+  const {formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, editing, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
+
 
 
   useEffect(() => {
@@ -77,8 +79,6 @@ function ForumControl() {
     return () => unSubscribe();
   }, []);
 
-
-
   const handleClick = () => {
     if (selectedPost != null) {
       setFormVisibleOnPage(false);
@@ -89,13 +89,11 @@ function ForumControl() {
     }
   }
 
-
   const handleAddComment = (id) => {
     if(selectedPost != null) {
       setCommentFormVisible(false);
       setSelectedPost(null);
       setEditing(null);
-      console.log(id);
       setPostId(id);
     } else {
       setCommentFormVisible(!commentFormVisible);
@@ -126,11 +124,6 @@ function ForumControl() {
   const handleAddingPostToList = async (newPostData) => {
     await addDoc(collection(db, "posts"), newPostData);
     setFormVisibleOnPage(false);
-  }
-
-  const handleAddingCommentToList = async (newCommentData) => {
-    await addDoc(collection(db, "comments"), newCommentData);
-    setCommentFormVisible(false);
   }
   
   const handleAsceSortClick = () => {
@@ -166,6 +159,7 @@ function ForumControl() {
   if (isLogged === false) { 
     return (
       <React.Fragment>
+        <Header />
         <div className="forum">
           <div className="col-left">
             <p>Login To Make a Post</p>
@@ -203,7 +197,8 @@ function ForumControl() {
     } else if (commentFormVisible) {
       currentlyVisibleState = (
         <NewCommentForm 
-          onNewCommentCreation={handleAddingCommentToList}
+          setVisible={setCommentFormVisible}
+          visible={commentFormVisible}
           postId={postId}
           postList={mainPostList}
         />
@@ -221,6 +216,7 @@ function ForumControl() {
     }
     return (
       <React.Fragment>
+        <Header />
         <div className="forum">
           <div className="col-left">
             <button id="controllerBtn"onClick={handleClick}>{buttonText}</button>
