@@ -1,13 +1,29 @@
-import React, { useState,setState, useContext} from 'react';
+import React, { useState, setState, useContext, useEffect } from 'react';
+import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
+import  { db, auth } from './../firebase.js';
 import { UserContext } from './UserContext';
 import { v4 } from 'uuid';
 import PropTypes from "prop-types"; 
-import  { db, auth } from './../firebase.js'
-import { collection, addDoc } from 'firebase/firestore';
+
+
 
 function NewCommentForm(props) {
   
   const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
+  const { postList } = props;
+  const [count, setCount] = useState(null);
+  
+  
+
+  useEffect(() => {
+    let postCount
+    props.postList.forEach(function(item) {
+      if(item.id === postId) {
+        postCount = item.commentCount;
+      }
+    })
+    setCount(postCount);
+  }, []);
 
   const [content, setContent] = useState(null);
 
@@ -15,12 +31,21 @@ function NewCommentForm(props) {
     e.preventDefault();
     addDoc(collection(db,'comments'),{
       content:content,
-      userName: userName, 
+      userName: userName,
+      date: new Date(),
+      count: 1,
       postId: postId,
       id: v4()
     })
-    console.log(content);
-    setContent('')
+    
+    const countRef = doc(db, "posts", postId);
+      updateDoc(countRef, {
+        commentCount: count + 1,
+      });
+    
+    
+    setContent('');
+    props.setVisible(!props.visible)
     };
 
   const handleInputChange = (e) => {
@@ -43,7 +68,9 @@ function NewCommentForm(props) {
 }
 
 NewCommentForm.propTypes = {
-  onNewCommentCreation: PropTypes.func,
+  setVisible: PropTypes.func,
+  visible: PropTypes.bool,
+  postList: PropTypes.object,
 }
 
 export default NewCommentForm;
