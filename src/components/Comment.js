@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import  { db, auth } from './../firebase.js';
-import React, { useState, useEffect, useContext }from "react";
-import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
+import  { db } from './../firebase.js';
+import React, { useState, useEffect }from "react";
+import  { doc, updateDoc } from 'firebase/firestore';
 
 function Comment(props) {
 
@@ -32,11 +32,6 @@ function Comment(props) {
     setVoteCount(voteCount => voteCount - 1);
     console.log("clicked downvote");
   }
-
-  // function grabPostId(id) {
-  //   setPostId(id);
-  // }
-
 
   return (
     <React.Fragment>

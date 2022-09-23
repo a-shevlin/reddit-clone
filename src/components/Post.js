@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext }from "react";
-import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
-import  { db, auth } from './../firebase.js';
+import  { doc, updateDoc } from 'firebase/firestore';
+import  { db } from './../firebase.js';
 import { UserContext } from "./UserContext";
 import PropTypes from "prop-types";
 
 function Post(props) {
 
   
-  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
+  const { setPostId } = useContext(UserContext);
   const [voteCount, setVoteCount] = useState(props.count);
   
   const formattedDate = new Date(props.date.seconds * 1000).toLocaleTimeString();

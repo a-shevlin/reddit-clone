@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { auth } from "./../firebase";
 import { UserContext, HeaderState } from "./UserContext.js";
-import PropTypes from 'prop-types';
+
+
 
 function Header(){
 
-  const {isLogged, setIsLogged, userName, setUserName} = useContext(UserContext);
-  const {formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, editing, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
-
+  const {userName, setUserName} = useContext(UserContext);
+  const { setFormVisibleOnPage, setSelectedPost, setEditing, setCommentFormVisible } = useContext(HeaderState)
+ 
+  const grabObject = window.sessionStorage.getItem(sessionStorage.key(auth.currentUser));
+  const parseObject = JSON.parse(grabObject);
+  setUserName(parseObject.email);
 
   function logoClick() {
       setFormVisibleOnPage(false);
@@ -16,8 +21,7 @@ function Header(){
       setCommentFormVisible(false);
     }
   
-
-  if (isLogged === false) {
+  if (auth.currentUser === null) {
     return (
       <React.Fragment>
       <nav className="navbar navbar-background bg-dark">
@@ -31,7 +35,7 @@ function Header(){
       </nav>
     </React.Fragment>
     )
-  } else if (isLogged === true) {
+  } else if (auth.currentUser != null) {
     return (
       <React.Fragment>
         <nav className="navbar navbar-expand-lg bg-dark">
@@ -60,9 +64,5 @@ function Header(){
     )
   }
 }
-
-// Header.propTypes = {
-//   onLogoClick: propTypes.func
-// }
 
 export default Header;

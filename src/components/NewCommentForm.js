@@ -1,16 +1,13 @@
-import React, { useState, setState, useContext, useEffect } from 'react';
-import  {collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
-import  { db, auth } from './../firebase.js';
+import React, { useState, useContext, useEffect } from 'react';
+import  {collection, addDoc, doc, updateDoc } from 'firebase/firestore';
+import  { db } from './../firebase.js';
 import { UserContext } from './UserContext';
 import { v4 } from 'uuid';
 import PropTypes from "prop-types"; 
 
-
-
 function NewCommentForm(props) {
   
-  const {isLogged, setIsLogged, userName, setUserName, postId, setPostId} = useContext(UserContext);
-  const { postList } = props;
+  const {userName, postId } = useContext(UserContext);
   const [count, setCount] = useState(null);
   
   

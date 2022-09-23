@@ -1,11 +1,6 @@
 import React from "react";
 import Post from "./Post";
 import PropTypes from "prop-types";
-import  { db } from './../firebase.js'
-import { query, orderBy, onSnapshot, collection, getDocs } from "firebase/firestore";  
-
-
-
 
 function PostList(props) {
   return (

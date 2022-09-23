@@ -1,19 +1,14 @@
 import React from "react";
 import Comment from "./Comment";
 import PropTypes from "prop-types";
-import { query, collection, where, getDocs } from 'firebase/firestore'
-import { db } from './../firebase.js'
 
 function CommentList(props) {
-
-  
 
   return (
     <React.Fragment>
       <div>
         {Object.values(props.commentList).map((comment) => (
           <Comment
-          // whenCommentClicked = { props.onCommentSelection }
           userName = { comment.userName }
           content = { comment.content }
           date = {comment.date }
@@ -28,8 +23,7 @@ function CommentList(props) {
 }
 
 CommentList.propTypes = {
-  commentList: PropTypes.array,
-  // onCommentSelection: PropTypes.func
+  commentList: PropTypes.array
 };
 
 export default CommentList;

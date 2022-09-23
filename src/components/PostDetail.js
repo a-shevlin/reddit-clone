@@ -1,12 +1,12 @@
-import React, {useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import  {collection, addDoc, onSnapshot, updateDoc ,doc, deleteDoc, FieldValue, increment } from 'firebase/firestore';
+import  { updateDoc ,doc } from 'firebase/firestore';
 import  { db } from './../firebase.js';
 import CommentList from "./CommentList";
-import { UserContext } from "./UserContext";
+
 
 function PostDetail(props){
-  const { post, onClickingEdit, onClickingDelete } = props;
+  const { post } = props;
   const [voteCount, setVoteCount] = useState(post.count);
   const [height, setHeight] = useState(null);
   
@@ -18,19 +18,6 @@ function PostDetail(props){
       newCommentList.push(item);
     }
   })
-
-  // useEffect(() => {
-  //   for (let i = 0; i < newCommentList.length; i++) {
-  //     let length = 0;
-  //     if (newCommentList.length > 0) {
-
-  //       length = 200 + (150 * newCommentList.length);
-  //     }
-
-  //     setHeight(length);
-  //   }
-    
-  // }, []);
 
   useEffect(() => {
     const countRef = doc(db, "posts", post.id);
