@@ -10,6 +10,7 @@ function PostList(props) {
           <Post
             whenPostClicked = { props.onPostSelection }
             onClickingEdit = { props.onClickingEdit }
+            onClickingDelete = { props.onClickingDelete }
             whenCommentClicked = { props.addComment }
             onUpVote = { props.onUpVote }
             onDownVote = { props.onDownVote }
@@ -30,6 +31,7 @@ function PostList(props) {
 PostList.propTypes = {
   addComment: PropTypes.func,
   onClickingEdit: PropTypes.func,
+  onClickingDelete: PropTypes.func,
   postList: PropTypes.array,
   onPostSelection: PropTypes.func,
   onUpVote: PropTypes.func,

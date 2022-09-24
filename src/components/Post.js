@@ -55,6 +55,7 @@ function Post(props) {
         </div>
         
         <div className="col-right">
+          
           <div className="postHeader" onClick={() => props.whenPostClicked(props.id)}>
             <h5>Posted by {props.userName} {formattedDate}</h5>
             <h3>{props.heading}</h3>
@@ -64,7 +65,13 @@ function Post(props) {
             <div className="comments pButton" 
                   onClick={() => { props.whenCommentClicked(props.id); grabPostId(props.id) }}>
               <i className="icon" id="commentsClip"></i>
-              <span>comments</span>
+              {props.commentCount === 1 ? (
+                <span>{props.commentCount} comment</span>
+              ) : (
+                <span>{props.commentCount} comments</span>
+              )
+              }
+              
             </div>
             <a href="/">
               <div className="share pButton">
@@ -78,11 +85,13 @@ function Post(props) {
                 <span>save</span>
               </div>
             </a>
-            <a>
-              <div className="ellipsis pButton">
-                <span onClick={() => {props.onClickingEdit();  props.whenPostClicked(props.id)}}id="pBtnMore">...</span>
-              </div>
-            </a>
+            <div className="ellipsis pButton dropdown">
+              <span className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="pBtnMore">...</span>
+              <ul className="dropdown-menu">
+                <li><p className="dropdown-item" onClick={() => props.onClickingEdit()}>Edit</p></li>
+                <li><p className="dropdown-item" onClick={() => props.onClickingDelete(props.id)}>Delete</p></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -101,12 +110,14 @@ Post.propTypes = {
     nanoseconds: PropTypes.number
   }), 
   count: PropTypes.number,
+  commentCount: PropTypes.number,
   id: PropTypes.string,
   whenPostClicked: PropTypes.func,
   whenCommentClicked: PropTypes.func,
   onUpVote: PropTypes.func,
   onDownVote: PropTypes.func,
-  onClickingEdit: PropTypes.func
+  onClickingEdit: PropTypes.func,
+  onClickingDelete: PropTypes.func
 };
 
 export default Post;

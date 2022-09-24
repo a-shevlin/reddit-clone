@@ -69,7 +69,12 @@ function PostDetail(props){
             <div className="postButtons">
               <div className="comments pButton">
                 <i className="icon" id="commentsClip"></i>
-                <span>comments</span>
+                {props.commentCount === 1 ? (
+                <span>{post.commentCount} comment</span>
+              ) : (
+                <span>{post.commentCount} comments</span>
+              )
+              }
               </div>
               <a href="/">
                 <div className="share pButton">
@@ -84,9 +89,13 @@ function PostDetail(props){
                 </div>
               </a>
               <a>
-                <div className="ellipsis pButton">
-                  <span id="pBtnMore">...</span>
-                </div>
+              <div className="ellipsis pButton dropdown">
+              <span className="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" id="pBtnMore">...</span>
+              <ul className="dropdown-menu">
+                <li><p className="dropdown-item" onClick={() => props.onClickingEdit()}>Edit</p></li>
+                <li><p className="dropdown-item" onClick={() => props.onClickingDelete(post.id)}>Delete</p></li>
+              </ul>
+            </div>
               </a>
             </div>
           </div>
