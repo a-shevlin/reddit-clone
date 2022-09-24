@@ -80,7 +80,7 @@ function Post(props) {
             </a>
             <a>
               <div className="ellipsis pButton">
-                <span id="pBtnMore">...</span>
+                <span onClick={() => {props.onClickingEdit();  props.whenPostClicked(props.id)}}id="pBtnMore">...</span>
               </div>
             </a>
           </div>
@@ -105,7 +105,8 @@ Post.propTypes = {
   whenPostClicked: PropTypes.func,
   whenCommentClicked: PropTypes.func,
   onUpVote: PropTypes.func,
-  onDownVote: PropTypes.func
+  onDownVote: PropTypes.func,
+  onClickingEdit: PropTypes.func
 };
 
 export default Post;
