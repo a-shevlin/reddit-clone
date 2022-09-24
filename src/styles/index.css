@@ -42,9 +42,8 @@ input:-webkit-autofill:active{
     -webkit-text-fill-color: rgba(215,218,220,0.5);
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.dropdown-toggle:after {
+  display: none;
 }
 
 button {
@@ -256,9 +255,79 @@ ol
 
 #leftPlanet {
   background-color: orangered;
+  position: absolute;
   width: 120px;
   height: 40px;
   clip-path: polygon(99% 100%, 97% 76%, 93% 57%, 87% 33%, 80% 15%, 71% 2%, 62% 0, 49% 0, 34% 0, 23% 0, 14% 14%, 7% 33%, 0 55%, 0 100%);
+}
+
+#topLeftPlanet {
+  position: relative;
+  left: 100px;
+  background-color: rgb(49, 77, 104);
+  width: 80px;
+  height: 40px;
+  clip-path: polygon(28% 100%, 31% 94%, 36% 86%, 42% 77%, 49% 65%, 47% 65%, 43% 64%, 37% 61%, 26% 54%, 22% 42%, 22% 31%, 24% 17%, 30% 8%, 38% 0, 54% 0, 64% 9%, 70% 25%, 71% 40%, 68% 55%, 62% 61%, 49% 67%, 41% 79%);
+}
+
+#middlePlanet {
+  position: relative;
+  top: -40px;
+  left: 135px;
+  background-color: rgb(57, 123, 126);
+  width: 100px;
+  height: 40px;
+  clip-path: polygon(21% 100%, 26% 68%, 34% 46%, 44% 31%, 52% 28%, 59% 35%, 65% 49%, 69% 38%, 74% 21%, 78% 6%, 81% 0%, 82% 0, 79% 8%, 76% 21%, 70% 36%, 66% 53%, 71% 65%, 73% 79%, 74% 100%);
+}
+
+#mpShadow {
+  background-color: rgb(80, 25, 37);
+  width: 100px;
+  position: relative;
+  top: 2px;
+  left: 10px;
+  height: 40px;
+  clip-path: polygon(47% 49%, 57% 63%, 61% 83%, 59% 100%, 43% 100%, 47% 92%, 49% 80%, 46% 70%, 51% 76%, 48% 69%, 43% 59%, 50% 63%, 54% 68%, 42% 40%, 46% 45%);
+}
+
+#smallPlanet {
+  position: relative;
+  top: -80px;
+  left: 170px;
+  background-color: rgb(212, 126, 44);
+  width: 110px;
+  height: 40px;
+  clip-path: polygon(51% 100%, 55% 74%, 59% 59%, 65% 39%, 70% 26%, 67% 24%, 67% 10%, 71% 3%, 75% 11%, 74% 23%, 71% 26%, 68% 26%, 61% 55%, 55% 71%);
+}
+
+#rightPlanet {
+  position: relative;
+  top: -120px;
+  left: 210px;
+  background-color: rgb(212, 126, 44);
+  width: 110px;
+  height: 40px;
+  clip-path: polygon(76% 0%, 68% 24%, 64% 49%, 53% 34%, 44% 32%, 46% 54%, 52% 68%, 61% 84%, 60% 100%, 100% 100%, 100% 4%);
+}
+
+#rpRing {
+  clip-path: polygon(86% 100%, 79% 92%, 70% 75%, 63% 51%, 60% 12%, 70% 26%, 82% 46%, 80% 58%, 82% 71%, 89% 86%, 100% 100%);
+  position: relative;
+  top: 0px;
+  left: -20px;
+  background-color: rgb(39, 143, 161);
+  width: 110px;
+  height: 40px;
+}
+
+#rpTexture {
+  clip-path: polygon(100% 45%, 89% 33%, 83% 17%, 80% 0%, 74% 15%, 71% 26%, 78% 42%, 84% 50%, 91% 58%, 97% 71%, 100% 72%);
+  position: relative;
+  top: 0px;
+  left: -14px;
+  background-color: rgb(230, 217, 209);
+  width: 140px;
+  height: 40px;
 }
 
 .mascotClip {
@@ -369,7 +438,7 @@ ol
 .postButtons .pButton {
   display: inline-block;
   height: 30px;
-  width: 100px;
+  width: 108px;
   margin: 3px;
   margin-top: 10px;
   margin-bottom: 0;
@@ -394,7 +463,7 @@ ol
 }
 
 .postButtons .share {
-  width: 75px;
+  width: 80px;
 }
 
 .postButtons #shareClip {
