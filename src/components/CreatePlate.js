@@ -5,6 +5,14 @@ function CreatePlate() {
     <div className="col-item" id="create">
       <div className="createBanner">
         <div id="leftPlanet"></div>
+        <div id="topLeftPlanet"></div>
+        <div id="middlePlanet">
+          <div id="mpShadow"></div>
+        </div>
+        <div id="smallPlanet"></div>
+        <div id="rightPlanet">
+          <div id="rpRing"></div>
+        </div>
       </div>
       <div className="mascotClip"></div>
       <div className="createText">
