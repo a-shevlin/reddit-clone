@@ -11,6 +11,7 @@ import { UserContext, HeaderState } from './UserContext';
 import  { db, auth } from './../firebase.js'
 import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import Header from './Header';
+import { Link } from 'react-router-dom';
 
 function ForumControl() {
   const [mainPostList, setMainPostList] = useState([]);
@@ -100,6 +101,9 @@ function ForumControl() {
 
   const handleEditClick = () => {
     setEditing(true);
+    setFormVisibleOnPage(false);
+    setFormVisibleOnPage(formVisibleOnPage)
+    setSelectedPost(true);
   }
 
   const handleDeletingPost = async (id) => {
@@ -159,7 +163,6 @@ function ForumControl() {
             <PremiumPlate />
             <CreatePlate />
             <div className="col-item" id="info">
-
             </div>
           </div>
         </div>
@@ -169,18 +172,20 @@ function ForumControl() {
     let currentlyVisibleState = null;
     let buttonText = null; 
 
-    //zz
     if (editing) {      
       currentlyVisibleState = <EditPostForm 
       post = {selectedPost} 
       onEditPost = {handleEditingPostInList} />
-      buttonText = "Return to Post List";}
+      buttonText = "Return to post List";}
     else if (selectedPost != null) {
       currentlyVisibleState = (
         <PostDetail 
           post = {selectedPost}
           commentList = {mainCommentList}
-        />
+          onClickingEdit = {handleEditClick}
+          onClickingDelete = {handleDeletingPost}
+          />
+        
       );
       buttonText = "Return To Forum";
     } else if (formVisibleOnPage) {
@@ -207,6 +212,7 @@ function ForumControl() {
           onPostSelection={handleChangingSelectedPost}
           addComment={handleAddComment}
           onClickingEdit = {handleEditClick}
+          onClickingDelete = {handleDeletingPost}
         />
       );
       buttonText = "Make Post!";
@@ -216,7 +222,7 @@ function ForumControl() {
         <Header />
         <div className="forum">
           <div className="col-left">
-            <button id="controllerBtn"onClick={handleClick}>{buttonText}</button>
+            <button id="controllerBtn" onClick={handleClick}>{buttonText}</button>
             <button id="controllerSortAsceBtn"onClick={handleAsceSortClick}>Trending!</button>
             <button id="controllerSortDescBtn"onClick={handleDescSortClick}>Controversial</button>
             {currentlyVisibleState}   
