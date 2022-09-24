@@ -9,6 +9,7 @@ function PostList(props) {
       {Object.values(props.postList).map((post) => (
           <Post
             whenPostClicked = { props.onPostSelection }
+            onClickingEdit = { props.onClickingEdit }
             whenCommentClicked = { props.addComment }
             onUpVote = { props.onUpVote }
             onDownVote = { props.onDownVote }
@@ -28,6 +29,7 @@ function PostList(props) {
 
 PostList.propTypes = {
   addComment: PropTypes.func,
+  onClickingEdit: PropTypes.func,
   postList: PropTypes.array,
   onPostSelection: PropTypes.func,
   onUpVote: PropTypes.func,

@@ -6,6 +6,7 @@ import CommunityPlate from './CommunityPlate';
 import PremiumPlate from './PremiumPlate';
 import CreatePlate from './CreatePlate'
 import NewCommentForm from './NewCommentForm';
+import EditPostForm from './EditPostForm';
 import { UserContext, HeaderState } from './UserContext';
 import  { db, auth } from './../firebase.js'
 import { collection, addDoc, onSnapshot, doc, updateDoc, deleteDoc } from 'firebase/firestore';
@@ -15,8 +16,8 @@ function ForumControl() {
   const [mainPostList, setMainPostList] = useState([]);
   const [mainCommentList, setMainCommentList ] = useState([]);
   const { postId, setPostId} = useContext(UserContext);
-  const { formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
-
+  const { formVisibleOnPage, setFormVisibleOnPage, selectedPost, setSelectedPost, editing, setEditing, commentFormVisible, setCommentFormVisible } = useContext(HeaderState)
+ 
 
 
   useEffect(() => {
@@ -167,8 +168,14 @@ function ForumControl() {
   } else if (auth.currentUser != null) {
     let currentlyVisibleState = null;
     let buttonText = null; 
-    
-    if (selectedPost != null) {
+
+    //zz
+    if (editing) {      
+      currentlyVisibleState = <EditPostForm 
+      post = {selectedPost} 
+      onEditPost = {handleEditingPostInList} />
+      buttonText = "Return to Post List";}
+    else if (selectedPost != null) {
       currentlyVisibleState = (
         <PostDetail 
           post = {selectedPost}
@@ -199,6 +206,7 @@ function ForumControl() {
           postList={mainPostList}
           onPostSelection={handleChangingSelectedPost}
           addComment={handleAddComment}
+          onClickingEdit = {handleEditClick}
         />
       );
       buttonText = "Make Post!";

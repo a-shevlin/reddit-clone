@@ -37,16 +37,13 @@ function Account() {
     return signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
       setSignInSuccess(`You've successfully signed in as ${userCredential.user.email}!`)
-     
+
     })
     .catch((error) => {
       setSignInSuccess(`There was an error signing in: ${error.message}!`);
     });
-})}
-
-
-
-    
+  })
+}
 
   function doSignOut() {
     signOut(auth)
@@ -56,7 +53,7 @@ function Account() {
         setSignOutSuccess(`There was an error signing out: ${error.message}!`);
       });
   }
-   
+
   return (
     <React.Fragment>
       <Header />
